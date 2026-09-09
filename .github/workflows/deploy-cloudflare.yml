@@ -1,0 +1,45 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: cloudflare-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      # Not a secret — an account identifier, visible in every dashboard URL.
+      CLOUDFLARE_ACCOUNT_ID: 5fae6613f67c84e01ce1afd194fd6e4d
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm ci
+
+      # No GITHUB_PAGES env var here, so astro.config.mjs builds for the
+      # root domain (aimplify.work) rather than a subpath.
+      - run: npm run build
+
+      # First run has no project yet; later runs skip this.
+      - name: Create Pages project if missing
+        run: |
+          npx wrangler@4 pages project list | grep -qw aimplify-website \
+            || npx wrangler@4 pages project create aimplify-website \
+                 --production-branch=main
+
+      - name: Deploy
+        run: |
+          npx wrangler@4 pages deploy dist \
+            --project-name=aimplify-website \
+            --branch=main
