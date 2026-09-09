@@ -1,0 +1,81 @@
+---
+export const prerender = true;
+
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Aimplify — Community">
+	<h1>Aimplify</h1>
+	<p class="lead">A community built around shared ideas and projects.</p>
+
+	<section id="about">
+		<h2>About</h2>
+		<p>
+			This is where the community's story goes: what you're building, who it's
+			for, and how people can get involved. Replace this paragraph with your
+			own mission statement.
+		</p>
+	</section>
+
+	<section id="newsletter">
+		<h2>Stay in the loop</h2>
+		<p>Get occasional updates about events and news.</p>
+
+		<!--
+			Replace YOUR_USERNAME with your Buttondown username once you create a
+			free account at https://buttondown.com. No backend code needed — this
+			form posts directly to Buttondown.
+		-->
+		<form
+			action="https://buttondown.com/api/emails/embed-subscribe/YOUR_USERNAME"
+			method="post"
+			target="popupwindow"
+			onsubmit="window.open('https://buttondown.com/YOUR_USERNAME', 'popupwindow')"
+			class="newsletter-form"
+		>
+			<input type="email" name="email" placeholder="you@example.com" required />
+			<button type="submit">Subscribe</button>
+		</form>
+	</section>
+
+	<section id="get-involved">
+		<h2>Get involved</h2>
+		<p>
+			Have a question or want to help out? <a href="/contact">Reach out here</a>.
+		</p>
+	</section>
+</Layout>
+
+<style>
+	section {
+		margin-top: 2.5rem;
+	}
+
+	.newsletter-form {
+		display: flex;
+		gap: 0.5rem;
+		max-width: 360px;
+	}
+
+	.newsletter-form input {
+		flex: 1;
+		padding: 0.6rem 0.75rem;
+		border: 1px solid var(--color-border);
+		border-radius: 6px;
+		font-size: 1rem;
+	}
+
+	.newsletter-form button {
+		padding: 0.6rem 1.1rem;
+		border: none;
+		border-radius: 6px;
+		background: var(--color-accent);
+		color: white;
+		font-size: 1rem;
+		cursor: pointer;
+	}
+
+	.newsletter-form button:hover {
+		opacity: 0.9;
+	}
+</style>
