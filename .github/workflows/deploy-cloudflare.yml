@@ -2,11 +2,14 @@ name: Deploy to Cloudflare Pages
 
 on:
   push:
-    branches: [main]
+    # Every branch deploys. `main` becomes production (the custom domain);
+    # any other branch gets its own preview URL and never touches production.
+    branches: ['**']
   workflow_dispatch:
 
 concurrency:
-  group: cloudflare-pages
+  # Per-branch, so a preview build can't cancel a production build.
+  group: cloudflare-pages-${{ github.ref_name }}
   cancel-in-progress: true
 
 jobs:
@@ -42,4 +45,16 @@ jobs:
         run: |
           npx wrangler@4 pages deploy dist \
             --project-name=aimplify-website \
-            --branch=main
+            --branch="$GITHUB_REF_NAME" \
+            | tee deploy.log
+
+      - name: Summarise where it went
+        run: |
+          url=$(grep -oE 'https://[a-z0-9.-]+\.pages\.dev' deploy.log | tail -1)
+          if [ "$GITHUB_REF_NAME" = "main" ]; then
+            echo "### Production deploy" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "### Preview deploy (\`$GITHUB_REF_NAME\`)" >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "$url" >> "$GITHUB_STEP_SUMMARY"
