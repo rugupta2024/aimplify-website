@@ -23,6 +23,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: withastro/action@v3
+        with:
+          # Astro 7 requires Node >=22.12; the runner defaults to Node 20.
+          node-version: 22
         env:
           # Tells astro.config.mjs to build for the project subpath
           # (rugupta2024.github.io/aimplify-website) instead of the root domain.
