@@ -2,6 +2,7 @@
 export const prerender = true;
 
 import Layout from "../layouts/Layout.astro";
+import { url } from "../lib/url";
 ---
 
 <Layout title="Aimplify — Community">
@@ -41,7 +42,7 @@ import Layout from "../layouts/Layout.astro";
 	<section id="get-involved">
 		<h2>Get involved</h2>
 		<p>
-			Have a question or want to help out? <a href="/contact">Reach out here</a>.
+			Have a question or want to help out? <a href={url("/contact")}>Reach out here</a>.
 		</p>
 	</section>
 </Layout>
