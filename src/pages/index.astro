@@ -171,7 +171,17 @@ const heroPhoto = ["hero.jpg", "hero.jpeg", "hero.png", "hero.webp"].find((f) =>
 			</a>
 		</div>
 		<div class="hero-art">
-			{heroPhoto && <img src={url(`/${heroPhoto}`)} alt="" width="1200" height="900" />}
+			{
+				heroPhoto && (
+					<img
+						src={url(`/${heroPhoto}`)}
+						alt="Someone pausing at a workbench, looking out"
+						width="1536"
+						height="1024"
+						fetchpriority="high"
+					/>
+				)
+			}
 			<div class="annotation">
 				<span>Same you.</span>
 				<span>More possible.</span>
@@ -671,6 +681,9 @@ const heroPhoto = ["hero.jpg", "hero.jpeg", "hero.png", "hero.webp"].find((f) =>
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+		/* The subject sits left of centre; keep her in frame when the panel
+		   crops to a tall column on wide screens. */
+		object-position: 38% center;
 	}
 
 	.annotation {
