@@ -1,82 +1,1301 @@
 ---
-export const prerender = true;
-
+import fs from "node:fs";
 import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
 import { url } from "../lib/url";
+
+const FORM = "https://forms.gle/DPvSZVANR36pdT9G7";
+
+const nav = [
+	{ href: "#why", short: "Why", long: "Why Aimplify" },
+	{ href: "#people", short: "Who we are", long: "Who we are" },
+	{ href: "#forwho", short: "Who it's for", long: "Who it's for" },
+	{ href: "#weeks", short: "How it works", long: "How it works" },
+	{ href: "#details", short: "What to expect", long: "What to expect" },
+];
+
+const glance = [
+	{ icon: "calendar", text: "First session Sat, Nov 7 · 10:00 am CST" },
+	{ icon: "video", text: "Online (Zoom / Google Meet)" },
+	{ icon: "clock", text: "90–120 minutes, weekends" },
+	{ icon: "gift", text: "Free, no experience needed" },
+] as const;
+
+const people = [
+	{
+		name: "Ruchi Gupta",
+		photo: "/people/ruchi.webp",
+		bio: "A curious, courageous, and deeply driven person who turns experience, uncertainty, and big ideas into meaningful change.",
+		linkedin: "https://www.linkedin.com/in/ruchiv/",
+	},
+	{
+		name: "Nirmal Gupta",
+		photo: "/people/nirmal.webp",
+		bio: "A thoughtful, technically grounded problem solver who combines engineering expertise, curiosity, and persistence to make complex things work.",
+		linkedin: "https://www.linkedin.com/in/nirmalgupta/",
+	},
+	{
+		name: "Pranjal Gupta",
+		photo: "/people/pranjal.webp",
+		bio: "A thoughtful, ambitious explorer who follows his interests wherever they lead and turns ideas into action.",
+		linkedin: "https://www.linkedin.com/in/pranjal-gupta28/",
+	},
+];
+
+const tags = [
+	"Engineers & product",
+	"Founders",
+	"Consultants",
+	"Sales & marketing",
+	"Finance & operations",
+	"Educators",
+	"Students",
+	"Librarians",
+	"Local business owners",
+	"Trades & contractors",
+];
+
+const weeks = [
+	{
+		n: 1,
+		colour: "#1573e6",
+		label: "Week one",
+		title: "Frame the problem",
+		body: "We open the idea up together: what's actually going on, who it affects, and what would count as better.",
+	},
+	{
+		n: 2,
+		colour: "#16a37b",
+		label: "Week two",
+		title: "Find the angle",
+		body: "Where could AI genuinely help — and where would it just get in the way? We look at what's already out there before building anything.",
+	},
+	{
+		n: 3,
+		colour: "#e08a12",
+		label: "Week three",
+		title: "Make a rough version",
+		body: "Hands on the tools. Something crude and working beats something polished and imagined.",
+	},
+	{
+		n: 4,
+		colour: "#e5397f",
+		label: "Week four",
+		title: "Make it usable",
+		body: "Sharpen it, write down what we learned, and finish with something that didn't exist a month ago.",
+	},
+];
+
+const details = [
+	{
+		title: "When",
+		body: "Saturday mornings, 10:00 am CST. The first one is November 7, 2026.",
+	},
+	{
+		title: "How long",
+		body: "90 to 120 minutes. Come to all four or drop into one — each session opens with where we got to, so there is nothing to catch up on.",
+	},
+	{
+		title: "Where",
+		body: "Online, on Zoom or Google Meet. Cameras on, because we are here to meet real people — though listening quietly your first time is perfectly normal.",
+	},
+	{
+		title: "In person, later",
+		body: "Once enough people nearby are coming, we will add sessions around Spring and The Woodlands.",
+	},
+	{
+		title: "What it costs",
+		body: "Nothing to attend, and nothing is ever sold here. A paid plan on one AI tool (around $20 a month) gets you further, but the free tiers are enough to take part.",
+	},
+	{
+		title: "The tools",
+		body: "ChatGPT, Claude or Gemini — whichever you already have. No setup to do beforehand.",
+	},
+	{
+		title: "What you share",
+		body: "What comes up in a session may be shared to help others learn, so keep confidential material out of it. If we ever feature your story, we will ask you first.",
+	},
+];
+
+// The hero photo is optional: drop any of these into public/ and it appears.
+// Without one, the hero panel renders as the gradient plus the handwritten note.
+const heroPhoto = ["hero.jpg", "hero.jpeg", "hero.png", "hero.webp"].find((f) =>
+	fs.existsSync(new URL(`../../public/${f}`, import.meta.url)),
+);
 ---
 
-<Layout title="Aimplify — Community">
-	<h1>Aimplify</h1>
-	<p class="lead">A community built around shared ideas and projects.</p>
+<Layout
+	title="Aimplify.Work — free AI fluency sessions for curious people"
+	description="Free weekend AI working sessions for curious people. Bring a problem, an idea, or just a question — no experience needed. Online, plus in-person around Spring and The Woodlands."
+	ogTitle="Aimplify.Work — your experience still matters"
+	ogDescription="Free weekend AI working sessions. Bring an idea, a problem, or just your curiosity."
+>
+	<nav class="nav">
+		<a href="#top" class="brand">
+			<span class="brand-ai"><span class="brand-a">A</span>i</span><span>mplify</span><span
+				class="brand-work">.Work</span
+			>
+		</a>
+		<div class="nav-links">
+			{nav.map((item) => <a href={item.href}>{item.short}</a>)}
+			<a class="btn" href={FORM} target="_blank" rel="noopener">Submit an idea</a>
+		</div>
+		<button type="button" class="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+			<Icon name="list" size={24} />
+		</button>
+	</nav>
 
-	<section id="about">
-		<h2>About</h2>
-		<p>
-			This is where the community's story goes: what you're building, who it's
-			for, and how people can get involved. Replace this paragraph with your
-			own mission statement.
-		</p>
+	<div class="mobile-menu" id="mobile-menu" hidden>
+		{nav.map((item) => <a href={item.href}>{item.long}</a>)}
+		<a class="btn btn-block" href={FORM} target="_blank" rel="noopener">Submit an idea</a>
+	</div>
+
+	<section id="top" class="hero">
+		<div class="hero-copy">
+			<h1>
+				<span>Your experience still matters.</span>
+				<span class="blue">And no experience matters too.</span>
+			</h1>
+			<p class="lead">
+				Aimplify.Work is a free community for people who want to go past the AI buzzwords and try
+				it on their own work, their own questions, their own ideas.
+			</p>
+			<p class="lead-strong">
+				You don't need to be technical, and you don't need to know where to start. <span
+					class="blue">You just need to be curious.</span
+				>
+			</p>
+			<p class="script script-lg">So — what should we Aimplify?</p>
+			<a class="btn btn-lg" href={FORM} target="_blank" rel="noopener">
+				Submit your idea <Icon name="arrow-right" size={18} />
+			</a>
+		</div>
+		<div class="hero-art">
+			{heroPhoto && <img src={url(`/${heroPhoto}`)} alt="" width="1200" height="900" />}
+			<div class="annotation">
+				<span>Same you.</span>
+				<span>More possible.</span>
+				<span class="underline"></span>
+			</div>
+		</div>
 	</section>
 
-	<section id="newsletter">
-		<h2>Stay in the loop</h2>
-		<p>Get occasional updates about events and news.</p>
-
-		<!--
-			Replace YOUR_USERNAME with your Buttondown username once you create a
-			free account at https://buttondown.com. No backend code needed — this
-			form posts directly to Buttondown.
-		-->
-		<form
-			action="https://buttondown.com/api/emails/embed-subscribe/YOUR_USERNAME"
-			method="post"
-			target="popupwindow"
-			onsubmit="window.open('https://buttondown.com/YOUR_USERNAME', 'popupwindow')"
-			class="newsletter-form"
-		>
-			<input type="email" name="email" placeholder="you@example.com" required />
-			<button type="submit">Subscribe</button>
-		</form>
+	<section class="glance" aria-label="At a glance">
+		<div class="wrap glance-row">
+			{
+				glance.map((item) => (
+					<span>
+						<Icon name={item.icon} />
+						{item.text}
+					</span>
+				))
+			}
+		</div>
 	</section>
 
-	<section id="get-involved">
-		<h2>Get involved</h2>
-		<p>
-			Have a question or want to help out? <a href={url("/contact")}>Reach out here</a>.
-		</p>
+	<section id="why" class="section tint-blue">
+		<div class="wrap">
+			<div class="split">
+				<div>
+					<p class="eyebrow">Why Aimplify</p>
+					<h2 class="h2-narrow">AI is everywhere. But what do we actually do with it?</h2>
+					<p class="body">
+						New tools, new terminology, new courses telling us what we should have learned last
+						month. Underneath the noise sits a simpler question:
+					</p>
+					<p class="pull">
+						How can I actually use AI — for my work, for the thing I've been meaning to fix?
+					</p>
+				</div>
+				<div class="venn-holder">
+					<div class="venn">
+						<span class="circle circle-left"></span>
+						<span class="circle circle-right"></span>
+						<span class="venn-label venn-left">Your experience</span>
+						<span class="venn-label venn-ai">AI</span>
+						<span class="venn-label venn-bottom">More impact. More possibilities.</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="beliefs">
+				<div>
+					<h3 class="h3-big">You don't have to start over.</h3>
+					<p class="body">
+						If you've spent years building expertise, judgment, context and relationships, AI
+						doesn't erase any of it.
+					</p>
+					<p class="script">AI can amplify.</p>
+				</div>
+				<div>
+					<h3 class="h3-big">And this isn't a course.</h3>
+					<p class="body">
+						Nobody lectures, nobody grades, and there's nothing to pass. It's a community space
+						to <strong class="blue">learn · experiment · build · share</strong>.
+					</p>
+				</div>
+			</div>
+		</div>
 	</section>
+
+	<section id="people" class="section tint-blue">
+		<div class="wrap">
+			<div class="split split-top">
+				<div>
+					<p class="eyebrow">Who we are</p>
+					<h2 class="h2-narrow">We're people figuring this out too.</h2>
+					<p class="body">
+						We're experienced professionals who've had the same moment you may be having: knowing
+						AI matters, but not being sure where to begin or how it fits with what we already
+						know. <strong>We're still learning, too.</strong>
+					</p>
+					<p class="body">
+						Aimplify.Work is how we give back to our community. We have our day jobs — nothing
+						here is for sale, and we won't pretend to have AI figured out.
+					</p>
+					<p class="script">When we don't know, we'll find out together.</p>
+				</div>
+				<div class="team">
+					{
+						people.map((person) => (
+							<div class="person">
+								<img
+									class="avatar"
+									src={url(person.photo)}
+									alt={`${person.name}, Aimplify.Work`}
+									width="192"
+									height="192"
+									loading="lazy"
+								/>
+								<div class="person-copy">
+									<h3>{person.name}</h3>
+									<p>{person.bio}</p>
+									<a href={person.linkedin} target="_blank" rel="noopener" class="linkedin">
+										<Icon name="linkedin" size={18} />
+										LinkedIn →
+									</a>
+								</div>
+							</div>
+						))
+					}
+					<p class="note">
+						Our LinkedIns are here because you should know who's behind this. No anonymous gurus. As
+						the team grows, more of us will show up here.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="forwho" class="section">
+		<div class="wrap">
+			<p class="eyebrow">Who it's for</p>
+			<h2 class="h2-wide">Any industry, any role. Honestly — anyone curious enough to explore.</h2>
+			<p class="body body-wide">
+				The most interesting AI opportunities tend to sit inside real work — in a deployment
+				pipeline just as often as in a lesson plan. Every industry, team and role has workflows only
+				the people doing them truly understand: the handoffs, the repetitive steps, the report
+				nobody enjoys assembling. <strong>Bring yours.</strong>
+			</p>
+			<div class="tags">
+				{tags.map((tag) => <span class="tag">{tag}</span>)}
+				<span class="tag-more">…and plenty we haven't thought of.</span>
+			</div>
+			<p class="body">
+				That mix is the point. A question from someone in a completely different line of work is
+				often the one that unlocks your problem — and the person who only started last month tends
+				to notice what the expert stopped seeing years ago.
+			</p>
+			<p class="script">You know the work. We'll figure out the tools together.</p>
+		</div>
+	</section>
+
+	<section id="weeks" class="section tint-green">
+		<div class="wrap">
+			<p class="eyebrow eyebrow-green">How it works</p>
+			<h2 class="h2-wide">Four weekends, from idea → 0 → 1</h2>
+			<p class="body">
+				Each cycle we take on one idea that's come in, and give it four sessions. One evening's
+				worth of time a week, and something exists at the end of it.
+			</p>
+			<div class="weeks">
+				{
+					weeks.map((week) => (
+						<div class="week">
+							<div class="week-head">
+								<span class="week-num" style={`background:${week.colour}`}>
+									{week.n}
+								</span>
+								<span class="week-label">{week.label}</span>
+							</div>
+							<h3>{week.title}</h3>
+							<p>{week.body}</p>
+						</div>
+					))
+				}
+			</div>
+			<p class="body body-wide">
+				What comes out varies — a workflow, a small tool, a prototype, or simply a much clearer
+				sense of what's possible. <strong>The point isn't what gets built. The point is that you
+				tried it.</strong>
+			</p>
+		</div>
+	</section>
+
+	<section id="details" class="section">
+		<div class="wrap">
+			<p class="eyebrow">What to expect</p>
+			<h2 class="h2-wide">The practical details.</h2>
+			<div class="details">
+				{
+					details.map((detail) => (
+						<div>
+							<h3>{detail.title}</h3>
+							<p>{detail.body}</p>
+						</div>
+					))
+				}
+			</div>
+
+			<p class="callout">
+				<strong>Ideas are always open.</strong>
+				<span
+					>Send one whenever it occurs to you — what comes in shapes what the group takes on next.</span
+				>
+				<a href={FORM} target="_blank" rel="noopener">Send yours →</a>
+			</p>
+
+			<div class="choose">
+				<h3>How we choose what to work on</h3>
+				<p>
+					We can't take on everything, so each cycle we pick one or two ideas the group can
+					realistically get somewhere with — usually the ones that are concrete, that several people
+					recognise from their own work, and that we can actually build on in four weekends.
+				</p>
+				<p>
+					About a week before each cycle we publish what we're taking on and how to register, so you
+					can see the topic before deciding to join. An idea that isn't picked doesn't disappear —
+					it stays on the list for a future cycle, and you're welcome whether or not the idea is
+					yours.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section id="join" class="join">
+		<div class="join-wrap">
+			<h2>
+				<span>You already know a lot.</span>
+				<span class="blue">Let's see what happens when you add AI.</span>
+			</h2>
+			<p class="script script-lg">
+				AI may be changing how we work. But people are still how we learn.
+			</p>
+			<p class="body">
+				Send us the thing you've been meaning to fix, or the question you haven't asked out loud
+				yet. “Just curious” is a perfectly good answer.
+			</p>
+			<p class="forming"><span class="dot"></span>The first cycle is forming now</p>
+			<div class="join-cta">
+				<a class="btn btn-lg" href={FORM} target="_blank" rel="noopener">
+					Submit your idea <Icon name="arrow-right" size={18} />
+				</a>
+			</div>
+			<p class="note-centre">There are no wrong questions here.</p>
+		</div>
+	</section>
+
+	<footer class="footer">
+		<div class="wrap footer-row">
+			<div class="footer-brand">
+				<span class="brand brand-dark">
+					<span class="brand-ai"><span class="brand-a">A</span>i</span><span>mplify</span><span
+						class="brand-work">.Work</span
+					>
+				</span>
+				<p>Weekend AI working sessions, run by people with day jobs, for anyone curious.</p>
+			</div>
+			<div class="footer-links">
+				{nav.map((item) => <a href={item.href}>{item.long}</a>)}
+				<a href={FORM} target="_blank" rel="noopener">Submit an idea</a>
+			</div>
+		</div>
+	</footer>
+
+	<div class="mobile-cta">
+		<div>
+			<p class="mobile-cta-title">Ideas are open now</p>
+			<p class="mobile-cta-sub">Send one anytime — it takes a minute</p>
+		</div>
+		<a class="btn" href={FORM} target="_blank" rel="noopener">Submit</a>
+	</div>
 </Layout>
 
+<script>
+	const button = document.querySelector<HTMLButtonElement>(".menu-btn");
+	const menu = document.querySelector<HTMLElement>(".mobile-menu");
+
+	if (button && menu) {
+		const close = () => {
+			menu.hidden = true;
+			button.setAttribute("aria-expanded", "false");
+		};
+
+		button.addEventListener("click", () => {
+			const open = menu.hidden;
+			menu.hidden = !open;
+			button.setAttribute("aria-expanded", String(open));
+		});
+
+		menu.addEventListener("click", (event) => {
+			if ((event.target as HTMLElement).closest("a")) close();
+		});
+
+		// The menu only exists below the nav breakpoint; leaving it open while the
+		// layout switches back to desktop would strand it on screen.
+		window.matchMedia("(min-width: 860px)").addEventListener("change", close);
+	}
+</script>
+
 <style>
-	section {
-		margin-top: 2.5rem;
+	.blue {
+		color: var(--blue);
 	}
 
-	.newsletter-form {
+	.wrap {
+		max-width: var(--wrap);
+		margin: 0 auto;
+	}
+
+	.script {
+		margin: 16px 0 0;
+		font-family: Caveat, ui-rounded, cursive;
+		font-size: 30px;
+		line-height: 1.2;
+		color: var(--blue);
+	}
+
+	.script-lg {
+		font-size: 31px;
+	}
+
+	/* ---------- buttons ---------- */
+
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 11px 20px;
+		border-radius: 999px;
+		background: var(--blue);
+		color: #fff;
+		font-weight: 600;
+		box-shadow: 0 6px 18px rgb(21 115 230 / 0.28);
+	}
+
+	.btn:hover {
+		background: var(--blue-dark);
+		color: #fff;
+	}
+
+	.btn-lg {
+		padding: 16px 28px;
+		font-size: 16.5px;
+		font-weight: 700;
+		box-shadow: 0 10px 26px rgb(21 115 230 / 0.3);
+	}
+
+	.btn-block {
+		justify-content: center;
+		margin-top: 8px;
+		padding: 15px 20px;
+		font-size: 17px;
+		font-weight: 700;
+	}
+
+	/* ---------- nav ---------- */
+
+	.nav {
+		position: sticky;
+		top: 0;
+		z-index: 30;
 		display: flex;
-		gap: 0.5rem;
-		max-width: 360px;
+		align-items: center;
+		gap: 12px 28px;
+		min-height: 64px;
+		padding: 14px var(--pad-x);
+		background: rgb(255 255 255 / 0.95);
+		backdrop-filter: blur(8px);
+		border-bottom: 1px solid #e8eef5;
 	}
 
-	.newsletter-form input {
-		flex: 1;
-		padding: 0.6rem 0.75rem;
-		border: 1px solid var(--color-border);
-		border-radius: 6px;
-		font-size: 1rem;
+	.brand {
+		display: flex;
+		align-items: baseline;
+		gap: 1px;
+		margin-right: auto;
+		font-size: 22px;
+		font-weight: 800;
+		letter-spacing: -0.02em;
+		color: var(--navy);
 	}
 
-	.newsletter-form button {
-		padding: 0.6rem 1.1rem;
-		border: none;
-		border-radius: 6px;
-		background: var(--color-accent);
-		color: white;
-		font-size: 1rem;
+	.brand-ai {
+		background: linear-gradient(150deg, #35c3f0, #1573e6);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+
+	.brand-a {
+		font-size: 26px;
+	}
+
+	.brand-work {
+		color: var(--blue);
+		font-weight: 700;
+	}
+
+	.nav-links {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 6px 22px;
+		font-size: 15px;
+		font-weight: 500;
+	}
+
+	.nav-links a:not(.btn) {
+		color: var(--slate);
+	}
+
+	.nav-links a:not(.btn):hover {
+		color: var(--blue);
+	}
+
+	.menu-btn {
+		display: grid;
+		place-items: center;
+		width: 44px;
+		height: 44px;
+		border: 1px solid #d9e4ef;
+		border-radius: 12px;
+		background: #fff;
+		color: var(--navy);
 		cursor: pointer;
 	}
 
-	.newsletter-form button:hover {
-		opacity: 0.9;
+	.menu-btn:hover {
+		background: var(--tint-grey);
+	}
+
+	.mobile-menu {
+		position: sticky;
+		top: 71px;
+		z-index: 29;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding: 10px var(--pad-x) 18px;
+		background: #fff;
+		border-bottom: 1px solid #e8eef5;
+		box-shadow: 0 10px 24px rgb(15 43 70 / 0.08);
+	}
+
+	.mobile-menu[hidden] {
+		display: none;
+	}
+
+	.mobile-menu a:not(.btn) {
+		padding: 13px 4px;
+		font-size: 17px;
+		font-weight: 600;
+		color: var(--navy);
+	}
+
+	/* ---------- hero ---------- */
+
+	.hero {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+		align-items: center;
+		background: linear-gradient(120deg, #ffffff 0%, #f4f9ff 45%, #fdf4ec 100%);
+	}
+
+	.hero-copy {
+		width: 100%;
+		max-width: 720px;
+		justify-self: end;
+		padding: clamp(44px, 6vw, 92px) var(--pad-x);
+	}
+
+	.hero h1 {
+		margin: 0;
+		font-size: clamp(34px, 4.6vw, 54px);
+		line-height: 1.08;
+		letter-spacing: -0.03em;
+	}
+
+	.hero h1 span {
+		display: block;
+	}
+
+	.lead {
+		max-width: 52ch;
+		margin: 24px 0 0;
+		font-size: 18px;
+		line-height: 1.7;
+		color: var(--slate);
+	}
+
+	.lead-strong {
+		margin: 24px 0 0;
+		font-size: 17.5px;
+		font-weight: 700;
+		line-height: 1.5;
+	}
+
+	.hero .btn-lg {
+		margin-top: 30px;
+	}
+
+	.hero-art {
+		position: relative;
+		align-self: stretch;
+		min-height: 340px;
+		background: linear-gradient(160deg, #dcecfb, #f6e7d6);
+	}
+
+	.hero-art img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.annotation {
+		position: absolute;
+		top: 7%;
+		right: 6%;
+		text-align: center;
+		font-family: Caveat, ui-rounded, cursive;
+		font-size: clamp(22px, 2.4vw, 32px);
+		line-height: 1.15;
+		color: var(--navy);
+		text-shadow: 0 1px 10px rgb(255 255 255 / 0.9);
+	}
+
+	.annotation span {
+		display: block;
+	}
+
+	.annotation .underline {
+		width: 110px;
+		height: 12px;
+		margin: 6px auto 0;
+		border-bottom: 3px solid var(--blue);
+		border-radius: 0 0 60% 40%;
+		transform: rotate(-2deg);
+	}
+
+	/* ---------- at a glance ---------- */
+
+	.glance {
+		padding: 22px var(--pad-x);
+		background: var(--navy);
+		color: #eaf3fe;
+	}
+
+	.glance-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 14px 34px;
+		font-size: 15.5px;
+		font-weight: 600;
+	}
+
+	.glance-row span {
+		display: flex;
+		align-items: center;
+		gap: 9px;
+	}
+
+	.glance-row :global(svg) {
+		color: #79b6ff;
+	}
+
+	/* ---------- shared section furniture ---------- */
+
+	.section {
+		padding: clamp(60px, 7vw, 100px) var(--pad-x);
+	}
+
+	.tint-blue {
+		background: var(--tint-blue);
+	}
+
+	.tint-green {
+		background: var(--tint-green);
+	}
+
+	/* "Why" and "Who we are" share a tint, so drop the seam between them. */
+	#people {
+		padding-top: 0;
+	}
+
+	.eyebrow {
+		margin: 0 0 12px;
+		font-size: 13.5px;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--blue);
+	}
+
+	.eyebrow-green {
+		color: #0e8f6c;
+	}
+
+	.h2-narrow,
+	.h2-wide {
+		margin: 0;
+		line-height: 1.15;
+	}
+
+	.h2-narrow {
+		font-size: clamp(27px, 3.2vw, 40px);
+		max-width: 24ch;
+	}
+
+	.h2-wide {
+		font-size: clamp(28px, 3.4vw, 42px);
+		max-width: 26ch;
+	}
+
+	.body {
+		max-width: 52ch;
+		margin: 20px 0 0;
+		font-size: 17px;
+		line-height: 1.75;
+		color: var(--slate);
+	}
+
+	.body-wide {
+		max-width: 68ch;
+	}
+
+	.body strong {
+		color: var(--navy);
+	}
+
+	.pull {
+		margin: 20px 0 0;
+		font-size: clamp(23px, 2.5vw, 30px);
+		line-height: 1.25;
+		font-weight: 800;
+		letter-spacing: -0.02em;
+		color: var(--blue);
+	}
+
+	.split {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+		gap: 40px clamp(32px, 5vw, 80px);
+		align-items: center;
+	}
+
+	.split-top {
+		align-items: start;
+	}
+
+	/* ---------- why: venn ---------- */
+
+	.venn-holder {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-height: 280px;
+	}
+
+	.venn {
+		position: relative;
+		width: min(420px, 100%);
+		aspect-ratio: 3 / 2;
+	}
+
+	.circle {
+		position: absolute;
+		top: 12%;
+		width: 62%;
+		aspect-ratio: 1;
+		border-radius: 50%;
+		mix-blend-mode: multiply;
+	}
+
+	.circle-left {
+		left: 0;
+		background: rgb(94 193 235 / 0.42);
+	}
+
+	.circle-right {
+		right: 0;
+		background: rgb(122 214 178 / 0.5);
+	}
+
+	.venn-label {
+		position: absolute;
+		font-family: Caveat, ui-rounded, cursive;
+		color: var(--navy);
+	}
+
+	.venn-left {
+		left: 9%;
+		top: 40%;
+		width: 30%;
+		text-align: center;
+		font-size: clamp(20px, 2vw, 27px);
+		line-height: 1.1;
+	}
+
+	.venn-ai {
+		right: 12%;
+		top: 38%;
+		font-size: clamp(30px, 3.4vw, 44px);
+		font-weight: 700;
+	}
+
+	.venn-bottom {
+		left: 50%;
+		bottom: -6%;
+		transform: translateX(-50%);
+		width: 74%;
+		text-align: center;
+		font-size: clamp(19px, 1.9vw, 25px);
+		line-height: 1.2;
+	}
+
+	.beliefs {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 32px clamp(32px, 5vw, 72px);
+		margin-top: 48px;
+		padding-top: 36px;
+		border-top: 1px solid #d3e4f4;
+	}
+
+	.h3-big {
+		margin: 0;
+		font-size: clamp(24px, 2.6vw, 32px);
+	}
+
+	.beliefs .body {
+		max-width: 46ch;
+		margin-top: 14px;
+	}
+
+	.beliefs .script {
+		font-size: clamp(30px, 3.4vw, 40px);
+		line-height: 1.1;
+	}
+
+	/* ---------- who we are ---------- */
+
+	.team {
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+	}
+
+	.person {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		gap: 20px;
+		padding: 24px;
+		border-radius: 20px;
+		background: #fff;
+	}
+
+	.avatar {
+		flex: none;
+		width: 96px;
+		height: 96px;
+		border-radius: 50%;
+		object-fit: cover;
+		background: #e5eef7;
+	}
+
+	.person-copy {
+		flex: 1 1 180px;
+		min-width: 0;
+	}
+
+	.person h3 {
+		margin: 0;
+		font-size: 19px;
+	}
+
+	.person p {
+		margin: 7px 0 0;
+		font-size: 15.5px;
+		line-height: 1.65;
+		color: var(--slate);
+	}
+
+	.linkedin {
+		display: inline-flex;
+		align-items: center;
+		gap: 7px;
+		margin-top: 10px;
+		font-size: 15px;
+		font-weight: 600;
+	}
+
+	.note {
+		margin: 0;
+		font-size: 15.5px;
+		line-height: 1.7;
+		color: var(--slate);
+	}
+
+	/* ---------- who it's for ---------- */
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 10px;
+		margin-top: 26px;
+	}
+
+	.tag {
+		padding: 9px 16px;
+		border-radius: 999px;
+		background: var(--tint-grey);
+		font-size: 15.5px;
+	}
+
+	.tag-more {
+		font-size: 15.5px;
+		color: var(--slate-light);
+	}
+
+	#forwho .body {
+		margin-top: 22px;
+	}
+
+	/* ---------- how it works ---------- */
+
+	.weeks {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: 20px;
+		margin-top: 34px;
+	}
+
+	.week {
+		padding: 28px 26px;
+		border-radius: 20px;
+		background: #fff;
+	}
+
+	.week-head {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.week-num {
+		display: grid;
+		place-items: center;
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		color: #fff;
+		font-size: 16.5px;
+		font-weight: 800;
+	}
+
+	.week-label {
+		font-size: 13px;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--slate-light);
+	}
+
+	.week h3 {
+		margin: 16px 0 0;
+		font-size: 18.5px;
+	}
+
+	.week p {
+		margin: 10px 0 0;
+		font-size: 15.5px;
+		line-height: 1.7;
+		color: var(--slate);
+	}
+
+	/* ---------- what to expect ---------- */
+
+	.details {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 26px 40px;
+		margin-top: 32px;
+	}
+
+	.details h3 {
+		margin: 0 0 5px;
+		font-size: 17.5px;
+	}
+
+	.details p {
+		margin: 0;
+		font-size: 15.5px;
+		line-height: 1.7;
+		color: var(--slate);
+	}
+
+	.callout {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 6px 10px;
+		margin: 34px 0 0;
+		padding: 18px 24px;
+		border-radius: 16px;
+		background: var(--tint-peach);
+		font-size: 16.5px;
+		line-height: 1.6;
+	}
+
+	.callout strong {
+		color: #a4650a;
+	}
+
+	.callout span {
+		color: var(--slate);
+	}
+
+	.callout a {
+		font-weight: 700;
+	}
+
+	.choose {
+		margin-top: 22px;
+		padding: 26px 28px;
+		border-radius: 20px;
+		background: var(--tint-grey);
+	}
+
+	.choose h3 {
+		margin: 0;
+		font-size: 19px;
+		letter-spacing: -0.01em;
+	}
+
+	.choose p {
+		max-width: 68ch;
+		margin: 10px 0 0;
+		font-size: 16px;
+		line-height: 1.75;
+		color: var(--slate);
+	}
+
+	/* ---------- closing ---------- */
+
+	.join {
+		padding: clamp(60px, 8vw, 112px) var(--pad-x);
+		background: linear-gradient(140deg, #eaf3fe 0%, #f4f9ff 50%, #fdf2e8 100%);
+		text-align: center;
+	}
+
+	.join-wrap {
+		max-width: 760px;
+		margin: 0 auto;
+	}
+
+	.join h2 {
+		margin: 0;
+		font-size: clamp(28px, 3.8vw, 48px);
+		line-height: 1.1;
+		letter-spacing: -0.03em;
+	}
+
+	.join h2 span {
+		display: block;
+	}
+
+	.join .script-lg {
+		margin: 20px 0 0;
+		font-size: clamp(28px, 3.2vw, 40px);
+		line-height: 1.15;
+	}
+
+	.join .body {
+		max-width: none;
+		margin: 18px 0 0;
+		font-size: 17.5px;
+		line-height: 1.7;
+	}
+
+	.forming {
+		display: inline-flex;
+		align-items: center;
+		gap: 9px;
+		margin: 20px 0 0;
+		padding: 9px 18px;
+		border-radius: 999px;
+		background: rgb(255 255 255 / 0.7);
+		font-size: 15px;
+		font-weight: 600;
+		color: var(--navy);
+	}
+
+	.dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: #16a37b;
+	}
+
+	.join-cta {
+		margin-top: 28px;
+	}
+
+	.note-centre {
+		margin: 16px 0 0;
+		font-size: 15px;
+		font-weight: 600;
+		color: var(--slate);
+	}
+
+	/* ---------- footer ---------- */
+
+	.footer {
+		padding: clamp(40px, 5vw, 56px) var(--pad-x);
+		background: var(--navy);
+		color: #cfe0ef;
+	}
+
+	.footer-row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		gap: 26px clamp(32px, 5vw, 72px);
+	}
+
+	.footer-brand {
+		flex: 1 1 300px;
+		min-width: 0;
+	}
+
+	.footer-brand p {
+		max-width: 44ch;
+		margin: 12px 0 0;
+		font-size: 15.5px;
+		line-height: 1.7;
+	}
+
+	.brand-dark {
+		font-size: 21px;
+		color: #fff;
+	}
+
+	.brand-dark .brand-ai {
+		background: linear-gradient(150deg, #6fdcff, #4f9dff);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+
+	.brand-dark .brand-a {
+		font-size: 25px;
+	}
+
+	.brand-dark .brand-work {
+		color: #79b6ff;
+	}
+
+	.footer-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px 22px;
+		font-size: 15.5px;
+	}
+
+	.footer-links a {
+		color: #cfe0ef;
+	}
+
+	.footer-links a:hover {
+		color: #fff;
+	}
+
+	/* ---------- mobile sticky CTA ---------- */
+
+	.mobile-cta {
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 40;
+		display: none;
+		align-items: center;
+		gap: 12px;
+		padding: 10px 16px;
+		background: rgb(255 255 255 / 0.96);
+		backdrop-filter: blur(8px);
+		border-top: 1px solid #e3ebf3;
+	}
+
+	.mobile-cta > div {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.mobile-cta-title {
+		margin: 0;
+		font-size: 13px;
+		font-weight: 700;
+		color: var(--navy);
+	}
+
+	.mobile-cta-sub {
+		margin: 1px 0 0;
+		font-size: 12.5px;
+		color: var(--slate);
+	}
+
+	.mobile-cta .btn {
+		flex: none;
+		padding: 13px 20px;
+		font-size: 15px;
+		font-weight: 700;
+	}
+
+	/* ---------- breakpoints ---------- */
+
+	@media (max-width: 859px) {
+		.nav-links {
+			display: none;
+		}
+
+		.mobile-cta {
+			display: flex;
+		}
+
+		/* Keep the sticky CTA from covering the last line of the footer. */
+		.footer {
+			padding-bottom: 100px;
+		}
+	}
+
+	@media (min-width: 860px) {
+		.menu-btn,
+		.mobile-menu {
+			display: none;
+		}
 	}
 </style>
