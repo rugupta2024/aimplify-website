@@ -22,6 +22,12 @@ const glance = [
 
 const people = [
 	{
+		name: "Pranjal Gupta",
+		photo: "/people/pranjal.webp",
+		bio: "A thoughtful, ambitious explorer who follows his interests wherever they lead and turns ideas into action.",
+		linkedin: "https://www.linkedin.com/in/pranjal-gupta28/",
+	},
+	{
 		name: "Ruchi Gupta",
 		photo: "/people/ruchi.webp",
 		bio: "A curious, courageous, and deeply driven person who turns experience, uncertainty, and big ideas into meaningful change.",
@@ -32,12 +38,6 @@ const people = [
 		photo: "/people/nirmal.webp",
 		bio: "A thoughtful, technically grounded problem solver who combines engineering expertise, curiosity, and persistence to make complex things work.",
 		linkedin: "https://www.linkedin.com/in/nirmalgupta/",
-	},
-	{
-		name: "Pranjal Gupta",
-		photo: "/people/pranjal.webp",
-		bio: "A thoughtful, ambitious explorer who follows his interests wherever they lead and turns ideas into action.",
-		linkedin: "https://www.linkedin.com/in/pranjal-gupta28/",
 	},
 ];
 
@@ -1283,6 +1283,18 @@ const details = [
 	@media (max-width: 859px) {
 		.nav-links {
 			display: none;
+		}
+
+		/* On a phone the photo leads: it sets the tone before the headline,
+		   rather than stranding itself below the whole pitch. */
+		.hero-art {
+			order: -1;
+			min-height: 0;
+			aspect-ratio: 3 / 2;
+		}
+
+		.hero-copy {
+			padding-top: clamp(32px, 7vw, 48px);
 		}
 
 		.mobile-cta {
