@@ -1,5 +1,4 @@
 ---
-import fs from "node:fs";
 import Layout from "../layouts/Layout.astro";
 import Icon from "../components/Icon.astro";
 import { url } from "../lib/url";
@@ -117,11 +116,6 @@ const details = [
 	},
 ];
 
-// The hero photo is optional: drop any of these into public/ and it appears.
-// Without one, the hero panel renders as the gradient plus the handwritten note.
-const heroPhoto = ["hero.jpg", "hero.jpeg", "hero.png", "hero.webp"].find((f) =>
-	fs.existsSync(new URL(`../../public/${f}`, import.meta.url)),
-);
 ---
 
 <Layout
@@ -171,17 +165,13 @@ const heroPhoto = ["hero.jpg", "hero.jpeg", "hero.png", "hero.webp"].find((f) =>
 			</a>
 		</div>
 		<div class="hero-art">
-			{
-				heroPhoto && (
-					<img
-						src={url(`/${heroPhoto}`)}
-						alt="Someone pausing at a workbench, looking out"
-						width="1536"
-						height="1024"
-						fetchpriority="high"
-					/>
-				)
-			}
+			<img
+				src={url("/hero.jpg")}
+				alt="Someone pausing at a workbench, looking out"
+				width="1536"
+				height="1024"
+				fetchpriority="high"
+			/>
 			<div class="annotation">
 				<span>Same you.</span>
 				<span>More possible.</span>
