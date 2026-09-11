@@ -207,13 +207,13 @@ const details = [
 						How can I actually use AI — for my work, for the thing I've been meaning to fix?
 					</p>
 				</div>
-				<div class="venn-holder">
-					<div class="venn">
-						<span class="circle circle-left"></span>
-						<span class="circle circle-right"></span>
-						<span class="venn-label venn-left">Your experience</span>
-						<span class="venn-label venn-ai">AI</span>
-						<span class="venn-label venn-bottom">More impact. More possibilities.</span>
+				<div class="equation-holder">
+					<div class="equation">
+						<p class="eq-pill eq-pill-blue">What you already know</p>
+						<p class="eq-op">+</p>
+						<p class="eq-pill eq-pill-green">AI, used on your own work</p>
+						<p class="eq-op">=</p>
+						<p class="eq-result">More impact.<br />More possibilities.</p>
 					</div>
 				</div>
 			</div>
@@ -811,70 +811,61 @@ const details = [
 		align-items: start;
 	}
 
-	/* ---------- why: venn ---------- */
+	/* ---------- why: equation ---------- */
 
-	.venn-holder {
-		display: flex;
-		justify-content: center;
-		align-items: center;
+	.equation-holder {
+		display: grid;
+		place-items: center;
 		min-height: 280px;
 	}
 
-	.venn {
-		position: relative;
+	.equation {
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		gap: 10px;
 		width: min(420px, 100%);
-		aspect-ratio: 3 / 2;
 	}
 
-	.circle {
-		position: absolute;
-		top: 12%;
-		width: 62%;
-		aspect-ratio: 1;
-		border-radius: 50%;
+	.eq-pill {
+		display: grid;
+		place-items: center;
+		min-height: 92px;
+		margin: 0;
+		padding: 18px 28px;
+		border-radius: 999px;
 		mix-blend-mode: multiply;
-	}
-
-	.circle-left {
-		left: 0;
-		background: rgb(94 193 235 / 0.42);
-	}
-
-	.circle-right {
-		right: 0;
-		background: rgb(122 214 178 / 0.5);
-	}
-
-	.venn-label {
-		position: absolute;
-		font-family: Caveat, ui-rounded, cursive;
+		font-size: 19px;
+		font-weight: 700;
+		line-height: 1.35;
+		text-align: center;
 		color: var(--navy);
 	}
 
-	.venn-left {
-		left: 9%;
-		top: 40%;
-		width: 30%;
-		text-align: center;
-		font-size: clamp(20px, 2vw, 27px);
-		line-height: 1.1;
+	.eq-pill-blue {
+		background: rgb(94 193 235 / 0.42);
 	}
 
-	.venn-ai {
-		right: 12%;
-		top: 38%;
-		font-size: clamp(30px, 3.4vw, 44px);
-		font-weight: 700;
+	.eq-pill-green {
+		background: rgb(122 214 178 / 0.5);
 	}
 
-	.venn-bottom {
-		left: 50%;
-		bottom: -6%;
-		transform: translateX(-50%);
-		width: 74%;
+	.eq-op {
+		margin: 0;
+		font-family: Caveat, ui-rounded, cursive;
+		font-size: 40px;
+		line-height: 1;
 		text-align: center;
-		font-size: clamp(19px, 1.9vw, 25px);
-		line-height: 1.2;
+		color: var(--blue-dark);
+	}
+
+	.eq-result {
+		margin: 0;
+		font-family: Caveat, ui-rounded, cursive;
+		font-size: clamp(28px, 3.2vw, 38px);
+		line-height: 1.15;
+		text-align: center;
+		color: var(--navy);
 	}
 
 	.beliefs {
